@@ -1,0 +1,211 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  {% block stylesheets %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min_4.2.1.css' %}">
+  <!-- Font awesome CSS -->
+  <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+
+  <!-- spinner 시 추가됨(bootstrap.min_4.2.1.css 과 함계..) -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script> -->
+  <script src="{% static 'assets/js/1.14.6.popper.min.js' %}"></script>
+
+
+
+  <!-- 파비콘 추가 -->
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+
+  <!-- Custom CSS -->
+  <style media="screen">
+    .invalid {
+      color: #dc3545;
+      font-size: 80%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-size: 80%;
+      /* background-color: #f8f9fa; */
+      background-color: #18191A;
+    }
+
+    .footer {
+      margin: auto 0 0;
+      height: 56px;
+    }
+
+    .custom {
+      padding: 4px 4px;
+      font-size: 100%;
+      line-height: 1;
+    }
+
+    .banner {
+      background: #fff;
+      font-family: Lato, sans-serif;
+    }
+
+    .navbar-nav-primary {
+      text-transform: uppercase;
+    }
+
+
+
+    .customcard {
+      background-color: #242526;
+    }
+
+    .custom-primary-text {
+      color: #E4E6EB;
+    }
+
+    .custom-second-text {
+      color: #B0B3B8;
+    }
+
+    .vertical-center {
+      text-align: center;
+    }
+
+
+    .header {
+      overflow: hidden;
+      background-color: #18191A;
+      padding: 8px 1px;
+    }
+
+    .header a {
+      float: left;
+      /* color: black; */
+      text-align: center;
+      padding: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 10px;
+      /* border-radius: 4px; */
+    }
+
+    .header a.logo {
+      font-size: 17px;
+      color: #E4E6EB;
+      /* font-weight: bold; */
+    }
+
+    /* .header a:hover {
+  background-color: #ddd;
+  color: black;
+} */
+
+    /* .header a.active {
+  background-color: dodgerblue;
+  color: white;
+} */
+
+    .header-right {
+      float: right;
+    }
+
+
+
+
+    .sub-summary-text {
+
+      font-size: 8px;
+
+      /* border-radius: 4px; */
+    }
+
+
+    .plus-color {
+      color: #5EE35D;
+
+    }
+
+    .minus-color {
+      color: #E6423A
+    }
+
+    .nochanges-color {
+      color: #B0B3B8;
+    }
+
+    .dataTables_filter {
+      color: rgb(38, 95, 38);
+    }
+
+    .dataTables_length {
+      color: rgb(216, 139, 39);
+    }
+
+    .dataTables_filter {
+      color: #E4E6EB;
+    }
+
+    .dataTables_info {
+      color: #B0B3B8;
+    }
+
+    .dataTables_length select {
+      background-color: red;
+    }
+
+    .dataTables_filter input {
+
+      background-color: #E4E6EB;
+    }
+
+
+    .transparent-style {
+
+      background-color: #ffffff;
+      opacity: .4;
+    }
+  </style>
+  {% endblock stylesheets %}
+
+  <title>Panabara</title>
+
+
+
+
+
+</head>
+
+<body>
+
+  <!-- Includes -->
+  {% include "_header.html" %}
+
+  {% block content %}{% endblock content %}
+
+  <!-- Includes -->
+  {% include "_footer.html" %}
+
+  <!-- JavaScript -->
+  {% block scripts %}
+  <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'assets/js/popper.min.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+  <!-- You can alternatively load the minified version -->
+  <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+  {% endblock scripts %}
+
+  {% block extrascripts %}{% endblock extrascripts %}
+
+
+
+
+</body>
+
+</html>

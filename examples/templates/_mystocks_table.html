@@ -1,0 +1,206 @@
+{% load static %}
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+<script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+
+<!-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> -->
+<script src="{% static 'assets/js/1.10.23.jquery.dataTables.min.js' %}"></script>
+
+
+
+<style type="text/css">
+  table {
+    width: 50%;
+    counter-reset: row-num-1;
+  }
+
+  table tr {
+    counter-increment: row-num;
+  }
+
+  table tr td:first-child::before {
+    content: counter(row-num);
+  }
+</style>
+
+
+<table id="mystocks-table" class="table table-sm display custom-primary-text table-dark table-striped table-boarderless" style="width:100%; " > 
+  <!-- class=" table-striped table table-responsive" : 모바일 사이즈를 위한 고정 설정--table-condensed
+  다크시엔 custom-second-text 추가 필요
+  -->
+  <thead>
+    <tr>
+      <th class="text-center "   scope="col" >#</th>
+
+      <th class="text-left" scope="col"  >Name</th>
+      <th class="d-none d-sm-table-cell text-center"   scope="col">BuyPrice</th>
+      <th class="d-none d-sm-table-cell text-center"  scope="col">CurPrice</th>
+      <th class="d-none d-sm-table-cell text-center"  scope="col">Quantity</th>
+      <!-- <th class="d-none d-sm-table-cell text-center"  scope="col">Currency</th> -->
+      <!-- <th class="d-none d-sm-table-cell text-center"  scope="col">KBuyUnitPrice</th>
+      <th class="d-none d-sm-table-cell text-center"  scope="col">KCurUnitPrice</th> -->
+
+      <th class="d-none d-sm-table-cell text-center"  scope="col">PreBuy</th>
+      <th class="d-none d-sm-table-cell text-center">PreCur</th>
+      <th class="d-none d-sm-table-cell text-center">PreDiff</th>
+
+      <th class="d-none d-sm-table-cell text-center"  scope="col">totBuy</th>
+      <th class="text-right" scope="col">Amount</th>
+      <th class="text-right"  scope="col">Ratio</th>
+      
+      <th class="d-none d-sm-table-cell text-center"  scope="col">Done</th>
+      <th class="text-center"  scope="col">Edit</th>
+      <!-- <th class="d-none d-sm-table-cell text-center"  scope="col">Updated</th> -->
+
+      
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for mystock in mystocks %}
+    <tr>
+
+
+      <td class="text-right"></td>
+
+
+      <!-- <td class="text-left text-truncate" style="max-width: 70px;">{{mystock.iname}}</td> -->
+
+      <!-- <td align="center" onClick="location.href='http://www.daum.net/'" style="cursor:pointer;">다음</td> 
+
+
+                  <button type="button" class="bs-modal read-mystock btn btn-info btn-sm custom" style="font-size: 0.8em;"
+              data-form-url="{% url 'read_mystock' mystock.pk %}"> -->
+
+              <!-- <td   class="bs-modal  " data-form-url="{% url 'read_mystock' mystock.pk %}"> 
+
+              다음</td> -->
+
+      <!-- {% if mystock.kforeverholdyn == True %}
+      <td class="text-left text-truncate bs-modal"  data-form-url="{% url 'read_mystock' mystock.pk %}" 
+      style="max-width: 70px;"> 
+        <i class="fa fa-star" style="color:gold"></i>{{mystock.iname}}
+      </td> 
+      {% else %}
+      <td class="text-left text-truncate bs-modal"  data-form-url="{% url 'read_mystock' mystock.pk %}" >
+      <i class="fa fa-star " style="visibility:hidden "></i>{{mystock.iname}}
+      {%endif%} -->
+ 
+
+      {% if mystock.kforeverholdyn == True %}
+      <td class="text-left text-truncate" style="max-width: 70px;"> <i class="fa fa-star" style="color:gold"></i>{{mystock.iname}}</td> 
+      {% else %}
+      <td class="text-left text-truncate" style="max-width: 70px;">
+        <i class="fa fa-star " style="visibility:hidden "></i>{{mystock.iname}}</td>
+      {%endif%}
+
+
+
+
+      <td class="text-right d-none d-sm-table-cell ">{{mystock.iunitbuyprice}}</td>
+      <td class="text-right d-none d-sm-table-cell ">{{mystock.iunitcurprice}}</td>
+      <td class="text-right d-none d-sm-table-cell ">{{mystock.iquantity}}</td>
+
+      {% load humanize %}
+      <!-- <td class="text-right d-none d-sm-table-cell">{{mystock.kcurrencyrate|intcomma}}</td> -->
+      <!-- <td class="text-right d-none d-sm-table-cell">{{mystock.kbuyprice|intcomma}}</td>
+      <td class="text-right d-none d-sm-table-cell">{{mystock.kcurprice|intcomma}}</td> -->
+
+      <td class="text-right  d-none d-sm-table-cell">{{mystock.ktotalprevbuyprice|intcomma}}</td>
+      <td class="text-right  d-none d-sm-table-cell">{{mystock.ktotalprevprice|intcomma}}</td>
+      <td class="text-right  d-none d-sm-table-cell">{{mystock.kprofitpreratio|intcomma}}%</td>
+
+      <td class="text-right d-none d-sm-table-cell">{{mystock.ktotalbuyprice|intcomma}}</td>
+
+<!-- 
+      <td class="text-left text-truncate bs-modal"  data-form-url="{% url 'read_mystock' mystock.pk %}" 
+      style="max-width: 70px;">  -->
+      <td class="text-right bs-modal"  data-form-url="{% url 'read_mystock' mystock.pk %}">{{mystock.ktotalcurprice|intcomma}}</td>
+
+      <!-- {% if mystock.kprofitratio > 0 %}
+      <td class="text-right" style="color:green">{{mystock.ktotalcurprice|intcomma}}</td>
+      {% elif mystock.kprofitratio < 0 %} 
+      <td class="text-right" style="color:red">{{mystock.ktotalcurprice|intcomma}}</td>
+        {% else %}
+        <td class="text-right">{{mystock.ktotalcurprice|intcomma}}</td>
+        {% endif %} -->
+        <!-- </td> -->
+
+        {% if mystock.kprofitratio > 0 %}
+        <td class="text-right plus-color bs-modal"  data-form-url="{% url 'read_mystock' mystock.pk %}" >
+          {{mystock.kprofitratio|intcomma}}%</td>
+        {% elif mystock.kprofitratio < 0 %} 
+        <td class="text-right minus-color bs-modal" data-form-url="{% url 'read_mystock' mystock.pk %}">
+          {{mystock.kprofitratio|intcomma}}%</td>
+          {% else %}
+          <td class="text-right bs-modal"  data-form-url="{% url 'read_mystock' mystock.pk %}">
+            {{mystock.kprofitratio|intcomma}}%</td>
+          {% endif %}
+    
+          <td class="text-right d-none d-sm-table-cell">{{mystock.kforeverholdyn}}</td>
+   
+
+
+          <td class="text-center">
+            <!-- Read mystock buttons -->
+            <!-- <button type="button"   class="bs-modal read-mystock btn btn-sm btn-primary" data-form-url="{% url 'read_mystock' mystock.pk %}">
+          <span class="fa fa-eye"></span>
+        </button> -->
+
+            <!-- {% if mystock.get_invst_type_display == 'Domestic' %}
+            <button type="button" class="bs-modal read-mystock btn btn-info btn-sm custom" style="font-size: 0.8em;"
+              data-form-url="{% url 'read_mystock' mystock.pk %}">
+              <span class="fa fa-krw"></span>
+            </button>
+            {% elif mystock.get_invst_type_display == 'Overseas' %}
+            <button type="button" class="bs-modal read-mystock btn btn-info btn-sm custom" style="font-size: 0.8em;"
+              data-form-url="{% url 'read_mystock' mystock.pk %}">
+              <span class="fa fa-usd"></span>
+            </button>
+            {% elif mystock.get_invst_type_display == 'Coin' %}
+            <button type="button" class="bs-modal read-mystock btn btn-info btn-sm custom" style="font-size: 0.8em;"
+              data-form-url="{% url 'read_mystock' mystock.pk %}">
+              <span class="fa fa-btc"></span>
+            </button>
+            {% endif %} -->
+
+
+            <!-- Update mystock buttons -->
+            <button type="button" class="update-mystocks btn btn-sm btn-primary custom " style="font-size: 0.8em;"
+              data-form-url="{% url 'update_mystock' mystock.pk %}">
+              <span class="fa fa-pencil"></span>
+            </button>
+
+            <!-- Delete mystock buttons -->
+            <button type="button" class="bs-modal delete-mystock btn btn-sm btn-danger custom" style="font-size: 0.8em;"
+              data-form-url="{% url 'delete_mystock' mystock.pk %}">
+              <span class="fa fa-trash"></span>
+            </button>
+
+          </td>
+
+          
+      <!-- <td class="text-right d-none d-sm-table-cell">{{mystock.iupdatedate}}</td> -->
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+<script>
+
+
+  $('#mystocks-table').DataTable(
+
+    {
+      "paging": false,
+      // "ordering": false, 
+      // "info":     false =>Showing 1 to 15 of 15 entries
+
+      "order": [[10, "desc"]]
+
+    }
+  );
+</script>

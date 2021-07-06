@@ -1,0 +1,1158 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include "_modal.html" %}
+
+
+
+
+<div class="container">
+  <div class="row float-right">
+    <div class="col-xs-12">
+      <div class="col-12 mb-3">
+        {% if not user.is_anonymous %}
+        <span>
+          Your are logged in as
+          <strong>{{ user }}</strong>.
+        </span>
+        <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-danger btn-sm" role="button">Log out</a>
+        {% else %}
+        <button id="login-btn" class="btn btn-primary btn-sm" type="button" name="button">Log in</button>
+        {% endif %}
+        <button id="signup-btn" class="btn btn-primary btn-sm" type="button" name="button">Sign up</button>
+      </div>
+      <!-- <div class="col-12 mb-3">
+            <button id="signup-btn" class="btn btn-primary" type="button" name="button">Sign up</button>
+          </div> -->
+
+    </div>
+  </div>
+</div>
+<!-- Login Signout End -->
+
+
+<!-- test start -->
+
+
+
+<!-- test end -->
+
+
+
+
+
+<div class="container">
+  <!-- Nav pills  nav-pills -->
+  <ul class="nav navbar-expand-md nav-pills navbar-light" style="background-color: #ddeeff;">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="pill" href="#home">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu1">Details</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu2">Trends</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu3">Index</a>
+    </li>
+  </ul>
+  <hr>
+
+
+  <!-- Tab panes start-->
+  <div class="tab-content">
+
+
+
+    <!-- home start -->
+    <div class="tab-pane active" id="home">
+      <!-- 두번째 차트 - 누적 잔고 -->
+
+      <a href="{% url 'refresh' %}" id="refresh-MyStocks" class="btn btn-primary btn-sm  " role="button"><span
+          class="fa fa-refresh mr-2 "></span>Refresh</a>
+
+
+      <p></p>
+
+
+
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <span style="color:#ff4444"><i class="fa fa-database fa-2x float-left mr-2"></i></span>
+
+              </div>
+              <div class="media-body">
+
+                <h6>Total Estimated Amount</h6>
+
+
+                {% if totalamounts_domestic.ktotalcurprice__sum > 0 %}
+                <span>&nbsp;&nbsp;&nbsp;&nbsp; Domestic</span><br>
+                {% endif %}
+                {% if totalamounts_overseas.ktotalcurprice__sum > 0 %}
+                <span> &nbsp;&nbsp;&nbsp;&nbsp;Overseas</span><br>
+                {% endif %}
+                {% if totalamounts_coin.ktotalcurprice__sum > 0 %}
+                <span> &nbsp;&nbsp;&nbsp;&nbsp;Coin</span><br>
+                {% endif %}
+
+
+              </div>
+              {% load humanize %}
+              <div class="align-self-center">
+                <h6>
+                  {{totalamounts.ktotalcurprice__sum|intcomma}}
+                </h6>
+
+
+
+                {% if totalamounts_domestic.ktotalcurprice__sum > 0%}
+                <span>
+                  <div style="float:right;">{{totalamounts_domestic.ktotalcurprice__sum|intcomma}}</div>
+                </span><br>
+                {% endif %}
+                {% if totalamounts_overseas.ktotalcurprice__sum > 0 %}
+                <span>
+                  <div style="float:right;">{{totalamounts_overseas.ktotalcurprice__sum|intcomma}}</div>
+                </span><br>
+                {% endif %}
+                {% if totalamounts_coin.ktotalcurprice__sum > 0 %}
+                <span>
+                  <div style="float:right;">{{totalamounts_coin.ktotalcurprice__sum|intcomma}}</div>
+                </span>
+                {% endif %}
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <p></p>
+
+
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <span style="color:#ffbb33"><i class="fa fa-pie-chart fa-2x float-left mr-2"></i></span>
+
+              </div>
+              <div class="media-body">
+                <h6> Number of Investments</h6>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp; Domestic</span><br>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp; Overseas</span><br>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp; Coin</span>
+
+              </div>
+              <div class="align-self-center">
+                <h6>{{totalnumbers|intcomma}}</h6>
+                <div style="float:right;">
+                  <span>
+                    <div style="float:right;">{{totalnumbers_domestic|intcomma}}</div>
+                  </span><br>
+                  <span>
+                    <div style="float:right;">{{totalnumbers_overseas|intcomma}}</div>
+                  </span><br>
+                  <span>
+                    <div style="float:right;"> {{totalnumbers_coin|intcomma}}</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p></p>
+
+
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-right">
+                <span style="color:#00C851"><i class="fa fa-line-chart fa-2x float-left mr-2"></i></span>
+
+
+              </div>
+              <div class="media-body">
+                <h6> Rate of Return</h6>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp; Domestic</span><br>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp; Overseas</span><br>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp; Coin</span>
+
+              </div>
+              <div class="align-self-center">
+                <h6>{{totratio|intcomma}}%</h6>
+                <div style="float:right;">
+                  <span>
+                    <div style="float:right;">{{totratio_domestic|intcomma}}%</div>
+                  </span><br>
+                  <span>
+                    <div style="float:right;">{{totratio_overseas|intcomma}}%</div>
+                  </span><br>
+                  <span>
+                    <div style="float:right;"> {{totratio_coin|intcomma}}%</div>
+                  </span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <p></p>
+
+        <div class="card overflow-hidden">
+          <div class="card-content">
+            <div class="card-body cleartfix">
+              <div class="media align-items-stretch">
+                <div class="align-self-center">
+                  <span style="color:#33b5e5"><i class="fa fa-bar-chart fa-2x float-left mr-2"></i></span>
+                </div>
+                <div class="media-body">
+                  <h6> Return on Investment</h6>
+                  <span> &nbsp;&nbsp;&nbsp;&nbsp;Domestic</span><br>
+                  <span> &nbsp;&nbsp;&nbsp;&nbsp;Overseas</span><br>
+                  <span> &nbsp;&nbsp;&nbsp;&nbsp;Coin</span>
+
+                </div>
+                <div class="align-self-center">
+                  <h6>{{totprice|intcomma}}</h6>
+                  <div style="float:right;">
+                    <span>
+                      <div style="float:right;">{{totprice_domestic|intcomma}}</div>
+                    </span><br>
+                    <span>
+                      <div style="float:right;">{{totprice_overseas|intcomma}}</div>
+                    </span><br>
+                    <span>
+                      <div style="float:right;"> {{totprice_coin|intcomma}}</div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+
+
+      <hr>
+
+
+
+      <div class="card overflow-hidden">
+        <div class="card-content ">
+          <h5 class="card-title">Account Trends</h5>
+          <!-- <h5 class="card-subtitle mb-2 text-muted"> Card subtitle</h5> -->
+
+          <canvas id="accumulate-chart" data-url="{% url 'accumulate-chart' %}"></canvas>
+
+        </div>
+      </div>
+
+      <p></p>
+      <div class="card overflow-hidden">
+        <div class="card-content">
+
+          <h5 class="card-title">Portfolio</h5>
+          <!-- <h5 class="card-subtitle mb-2 text-muted"> Card subtitle</h5> -->
+          <canvas id="population-chart" data-url="{% url 'population-chart' %}"></canvas>
+
+
+        </div>
+
+      </div>
+      <p></p>
+
+      <!-- 로딩 시간 문제로 임시 주석 처리 -->
+      <!-- <div class="card overflow-hidden">
+        <div class="card-content">
+
+          <h5 class="card-title">BubbleChart</h5>
+          <h5 class="card-subtitle mb-2 text-muted"> Card subtitle</h5>
+          <canvas id="bubble-chart" data-url="{% url 'bubble-chart' %}"></canvas>
+
+
+        </div>
+
+      </div> -->
+
+
+
+      <p></p>
+
+
+
+      <!-- <div id="container" style="width: 100%;">
+
+          <canvas id="accumulate-chart" data-url="{% url 'accumulate-chart' %}"></canvas>
+
+        </div>
+
+ 
+        <hr>
+        <div id="container" style="width: 100%;">
+
+          <canvas id="population-chart" data-url="{% url 'population-chart' %}"></canvas>
+
+        </div>  -->
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- menu1 start -->
+    <div class="tab-pane fade" id="menu1">
+
+
+
+      {% if not user.is_anonymous %}
+      <button id="create-MyStocks-sync" class="btn btn-primary btn-sm" type="button" name="button">
+        <span class="fa fa-plus mr-2"></span>Create
+      </button>
+      <!-- <button id="create-MyStocks-async" class="btn btn-primary" type="button" name="button">
+        <span class="fa fa-plus mr-2"></span>Create MyStocks - Asynchronous
+      </button> -->
+      <button id="filter-MyStocks" class="bs-modal btn btn-primary btn-sm " type="button" name="button"
+        data-form-url="{% url 'filter_mystock' %}">
+        <span class="fa fa-filter mr-2"></span>Filter
+      </button>
+
+      <!-- <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> -->
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script> -->
+      <!-- <a href="{% url 'refresh' %}" id="refresh-MyStocks" class="btn btn-primary btn-sm " role="button"><span class="fa fa-refresh mr-2"></span>Refresh</a> -->
+      <!-- <button id="refresh-MyStocks" class="btn btn-primary" type="button" name="button" data-form-url="{% url 'refresh' %}">
+        <span class="fa fa-filter mr-2"></span>Filter
+      </button> -->
+
+
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script> -->
+
+      {% endif %}
+
+
+      <p></p>
+
+      <!-- 로그인했을 때만 목록 보여주기  -->
+      {% if user.is_anonymous %}
+      <p class="no-mystocks text-primary">No logged in, otherwise Sign up.</p>
+      {% elif mystocks and not user.is_anonymous %}
+      {% include "_mystocks_table.html" %}
+      {% else %}
+      <p class="no-mystocks text-primary">No mystocks added yet.</p>
+      {% endif %}
+
+
+    </div>
+
+    <!-- menu1 end -->
+
+
+    <!-- menu2 start -->
+    <div class="tab-pane fade" id="menu2">
+      {% if not user.is_anonymous %}
+      <button id="create-balances-sync" class="btn btn-primary btn-sm" type="button" name="button">
+        <span class="fa fa-plus mr-2"></span>Create
+      </button>
+      {% endif %}
+
+
+      <p></p>
+      <!-- 로그인했을 때만 목록 보여주기  -->
+      {% if user.is_anonymous %}
+      <p class="no-balances text-primary">No logged in, otherwise Sign up.</p>
+      {% elif balances and not user.is_anonymous %}
+      {% include "_balances_table.html" %}
+      {% else %}
+      <p class="no-balances text-primary">No balances added yet.</p>
+      {% endif %}
+
+    </div>
+    <!-- menu2 end -->
+
+
+    <!-- menu3 start -->
+    <div class="tab-pane fade" id="menu3">
+
+      <button href="#Bar" class="btn btn-primary btn-sm" data-toggle="collapse">Index Indicator</button>
+      <div id="Bar" class="collapse">
+
+
+        <!-- 로딩 시간 문제로 임시 주석 처리 -->
+        <!-- <canvas id="kospi-chart" data-url="{% url 'kospi-chart' %}"></canvas> -->
+
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+  <!-- Tab panes end-->
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
+
+
+
+
+
+  <div class="container mt-3">
+
+
+
+    <div class="container">
+      <div class="row">
+
+
+        <div class="col-12 mb-3 float-right">
+
+
+
+
+
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+
+
+      <hr>
+
+
+
+
+      <div class="row">
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  {% endblock content %}
+
+  {% block extrascripts %}
+  <script type="text/javascript">
+
+
+
+
+    $(function () {
+      // Log in & Sign up buttons
+      // The formURL is given explicitly
+      $("#login-btn").modalForm({
+        formURL: "{% url 'login' %}"
+      });
+
+      $("#signup-btn").modalForm({
+        formURL: "{% url 'signup' %}"
+      });
+
+
+      $("#refresh-MyStocks").click(function () {
+        // disable button
+        $(this).prop("disabled", true);
+        // add spinner to button
+        $(this).html(
+          `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+        );
+      });
+
+
+
+      // Create MyStocks button opens modal with id="create-modal"
+      /* 
+      $("#create-MyStocks").modalForm({
+        formURL: "{% url 'create_mystock' %}",
+        modalID: "#create-modal"
+      });
+      */
+
+      function createmystocksyncModalForm() {
+        $("#create-MyStocks-sync").modalForm({
+          formURL: "{% url 'create_mystock' %}",
+          modalID: "#create-modal"
+        });
+      }
+      createmystocksyncModalForm();
+
+      function createBalancesSyncModalForm() {
+        $("#create-balances-sync").modalForm({
+          formURL: "{% url 'create_balances' %}",
+          modalID: "#create-modal"
+        });
+      }
+      createBalancesSyncModalForm();
+
+
+
+      var asyncSuccessMessageCreate = [
+        "<div ",
+        "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+        "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+        "Success: MyStocks was created.",
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+        "<span aria-hidden='true'>&times;</span>",
+        "</button>",
+        "</div>",
+        "<script>",
+        "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+        "<\/script>"
+      ].join("");
+
+      var asyncSuccessMessageUpdate = [
+        "<div ",
+        "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+        "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+        "Success: MyStocks was updated.",
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+        "<span aria-hidden='true'>&times;</span>",
+        "</button>",
+        "</div>",
+        "<script>",
+        "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+        "<\/script>"
+      ].join("");
+
+      function updateMyStockModalForm() {
+        $(".update-MyStocks").each(function () {
+          $(this).modalForm({
+            formURL: $(this).data("form-url"),
+            asyncUpdate: true,
+            asyncSettings: {
+              closeOnSubmit: false,
+              successMessage: asyncSuccessMessageUpdate,
+              dataUrl: "mystocks/",
+              dataElementId: "#mystocks-table",
+              dataKey: "table",
+              addModalFormFunction: updateMyStockModalForm
+            }
+          });
+        });
+      }
+      updateMyStockModalForm();
+
+      function updateBalancesModalForm() {
+        $(".update-balances").each(function () {
+          $(this).modalForm({
+            formURL: $(this).data("form-url"),
+            asyncUpdate: true,
+            asyncSettings: {
+              closeOnSubmit: false,
+              successMessage: asyncSuccessMessageUpdate,
+              dataUrl: "balances/",
+              dataElementId: "#balances-table",
+              dataKey: "table",
+              addModalFormFunction: updateBalancesModalForm
+            }
+          });
+        });
+      }
+      updateBalancesModalForm();
+
+
+
+      function createMyStockAsyncModalForm() {
+        $("#create-MyStocks-async").modalForm({
+          formURL: "{% url 'create_mystock' %}",
+          modalID: "#create-modal",
+          asyncUpdate: true,
+          asyncSettings: {
+            closeOnSubmit: true,
+            successMessage: asyncSuccessMessageCreate,
+            dataUrl: "mystocks/",
+            dataElementId: "#mystocks-table",
+            dataKey: "table",
+            addModalFormFunction: updateMyStockModalForm
+          }
+        });
+      }
+      createMyStockAsyncModalForm();
+
+
+
+
+      // Read and Delete MyStocks buttons open modal with id="modal"
+      // The formURL is retrieved from the data of the element
+      $(".bs-modal").each(function () {
+        $(this).modalForm({ formURL: $(this).data("form-url") });
+      });
+
+      // Hide message
+      $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+        $(".alert").slideUp(500);
+      });
+
+
+
+
+      var $accumulateChart = $("#accumulate-chart");
+      $.ajax({
+        url: $accumulateChart.data("url"),
+        success: function (data) {
+
+          var ctx = $accumulateChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Account Amount',
+                backgroundColor: ['rgba(32,99,255,0.5'],
+                borderColor: ['rgba(32, 99, 120, 1)'],
+                // hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                // hoverBorderColor: "rgba(234, 236, 244, 1)",
+                data: data.data
+              }]
+            },
+            options: {
+
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    // beginAtZero:true
+                    // display: false,
+                    mirror: true,
+                  }
+                }],
+                xAxes: [{
+                  ticks: {
+                    // beginAtZero:true
+                    display: false,
+                  }
+                }]
+              },
+
+              responsive: true,
+
+
+              legend: {
+                position: 'bottom',
+                display: false,
+              },
+
+              title: {
+                display: true,
+                text: 'Account Amount',
+                fontSize: 18,
+              },
+
+              plugins: {
+                labels: {
+                  // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+                  render: 'value',
+
+                  // precision for percentage, default is 0
+                  precision: 0,
+
+                  // identifies whether or not labels of value 0 are displayed, default is false
+                  showZero: true,
+
+                  // font size, default is defaultFontSize
+                  fontSize: 12,
+
+                  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+                  // fontColor: '#fff',
+
+                  // font style, default is defaultFontStyle
+                  // fontStyle: 'normal',
+
+                  // font family, default is defaultFontFamily
+                  // fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+                  // draw text shadows under labels, default is false
+                  // textShadow: true,
+
+                  // text shadow intensity, default is 6
+                  // shadowBlur: 10,
+
+                  // text shadow X offset, default is 3
+                  shadowOffsetX: -5,
+
+                  // text shadow Y offset, default is 3
+                  shadowOffsetY: 5,
+
+                  // text shadow color, default is 'rgba(0,0,0,0.3)'
+                  // shadowColor: 'rgba(0,0,0,0.3)',
+
+                  // draw label in arc, default is false
+                  // bar chart ignores this
+                  // arc: false,
+
+                  // position to draw label, available value is 'default', 'border' and 'outside'
+                  // bar chart ignores this
+                  // default is 'default'
+                  position: 'default',
+
+                  // draw label even it's overlap, default is true
+                  // bar chart ignores this
+                  overlap: true,
+
+                  // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+                  showActualPercentages: true,
+
+                  // set images when `render` is 'image'
+                  // images: [
+                  //   {
+                  //     src: 'image.png',
+                  //     width: 16,
+                  //     height: 16
+                  //   }
+                  // ],
+
+                  // add padding when position is `outside`
+                  // default is 2
+                  outsidePadding: 4,
+
+                  // add margin of text when position is `outside` or `border`
+                  // default is 2
+                  textMargin: 4
+                }
+              }
+            },
+
+            "valuePosition": "inside"
+          });
+
+        }
+      });
+
+      var $populationChart = $("#population-chart");
+      $.ajax({
+        url: $populationChart.data("url"),
+        success: function (data) {
+
+          var ctx = $populationChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Population',
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                data: data.data
+              }]
+            },
+            options: {
+
+
+              responsive: true,
+              legend: {
+                position: 'bottom',
+                display: false,
+              },
+
+              title: {
+                display: true,
+                text: 'Portfolio',
+                fontSize: 18,
+              },
+
+              plugins: {
+                labels: {
+                  // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+                  render: 'percentage',
+
+                  // precision for percentage, default is 0
+                  precision: 0,
+
+                  // identifies whether or not labels of value 0 are displayed, default is false
+                  showZero: true,
+
+                  // font size, default is defaultFontSize
+                  fontSize: 12,
+
+                  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+                  fontColor: '#fff',
+
+                  // font style, default is defaultFontStyle
+                  fontStyle: 'normal',
+
+                  // font family, default is defaultFontFamily
+                  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+                  // draw text shadows under labels, default is false
+                  textShadow: true,
+
+                  // text shadow intensity, default is 6
+                  shadowBlur: 10,
+
+                  // text shadow X offset, default is 3
+                  shadowOffsetX: -5,
+
+                  // text shadow Y offset, default is 3
+                  shadowOffsetY: 5,
+
+                  // text shadow color, default is 'rgba(0,0,0,0.3)'
+                  shadowColor: 'rgba(0,0,0,0.3)',
+
+                  // draw label in arc, default is false
+                  // bar chart ignores this
+                  arc: false,
+
+                  // position to draw label, available value is 'default', 'border' and 'outside'
+                  // bar chart ignores this
+                  // default is 'default'
+                  position: 'default',
+
+                  // draw label even it's overlap, default is true
+                  // bar chart ignores this
+                  overlap: true,
+
+                  // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+                  showActualPercentages: true,
+
+                  // set images when `render` is 'image'
+                  // images: [
+                  //   {
+                  //     src: 'image.png',
+                  //     width: 16,
+                  //     height: 16
+                  //   }
+                  // ],
+
+                  // add padding when position is `outside`
+                  // default is 2
+                  outsidePadding: 4,
+
+                  // add margin of text when position is `outside` or `border`
+                  // default is 2
+                  // textMargin: 4
+                }
+              }
+            },
+
+            "valuePosition": "inside"
+          });
+
+        }
+      });
+
+      var $kospiChart = $("#kospi-chart");
+      $.ajax({
+        url: $kospiChart.data("url"),
+        success: function (data) {
+
+          var ctx = $kospiChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'line',
+            backgroundColor: "#F5DEB3",
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Date',
+                backgroundColor: ['rgba(32,99,255,0.5'],
+                borderColor: ['rgba(32, 99, 120, 1)'],
+                // hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                // hoverBorderColor: "rgba(234, 236, 244, 1)",
+                data: data.data
+              }]
+            },
+            options: {
+
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    // beginAtZero:true
+                    // display: false,
+                    mirror: true,
+                  }
+                }],
+                xAxes: [{
+                  ticks: {
+                    // beginAtZero:true
+                    display: false,
+                  }
+                }]
+              },
+
+              responsive: true,
+              legend: {
+                position: 'bottom',
+                display: false,
+              },
+
+              title: {
+                display: true,
+                text: 'KOSPI Index',
+                fontSize: 18,
+              },
+
+              plugins: {
+                labels: {
+                  // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+                  render: 'value',
+
+                  // precision for percentage, default is 0
+                  precision: 0,
+
+                  // identifies whether or not labels of value 0 are displayed, default is false
+                  showZero: true,
+
+                  // font size, default is defaultFontSize
+                  fontSize: 12,
+
+                  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+                  fontColor: '#fff',
+
+                  // font style, default is defaultFontStyle
+                  fontStyle: 'normal',
+
+                  // font family, default is defaultFontFamily
+                  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+                  // draw text shadows under labels, default is false
+                  textShadow: true,
+
+                  // text shadow intensity, default is 6
+                  // shadowBlur: 10,
+
+                  // text shadow X offset, default is 3
+                  // shadowOffsetX: -5,
+
+                  // text shadow Y offset, default is 3
+                  // shadowOffsetY: 5,
+
+                  // text shadow color, default is 'rgba(0,0,0,0.3)'
+                  // shadowColor: 'rgba(0,0,0,0.3)',
+
+                  // draw label in arc, default is false
+                  // bar chart ignores this
+                  // arc: false,
+
+                  // position to draw label, available value is 'default', 'border' and 'outside'
+                  // bar chart ignores this
+                  // default is 'default'
+                  position: 'default',
+
+                  // draw label even it's overlap, default is true
+                  // bar chart ignores this
+                  overlap: true,
+
+                  // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+                  showActualPercentages: true,
+
+                  // set images when `render` is 'image'
+                  // images: [
+                  //   {
+                  //     src: 'image.png',
+                  //     width: 16,
+                  //     height: 16
+                  //   }
+                  // ],
+
+                  // add padding when position is `outside`
+                  // default is 2
+                  outsidePadding: 4,
+
+                  // add margin of text when position is `outside` or `border`
+                  // default is 2
+                  textMargin: 4
+                }
+              }
+            },
+
+            // "valuePosition": "inside"
+          });
+
+        }
+      });
+
+
+      var $bubbleChart = $("#bubble-chart");
+      $.ajax({
+        url: $bubbleChart.data("url"),
+
+        success: function (data) {
+
+
+          var dynamicColors = function () {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return "rgb(" + r + "," + g + "," + b + ")";
+          };
+
+
+
+          var sites = [];
+
+
+          for (var i = 0; i < data.name.length; i++) {
+
+            var site = {
+              label: data.name[i],
+              backgroundColor: dynamicColors(),
+              borderColor: "rgb(69,70,72)",
+              radius: 10,
+              borderWidth: 1,
+              hoverBorderWidth: 2,
+              hoverRadius: 5,
+              data: [
+                {
+                  x: data.x[i],
+                  y: data.y[i],
+                  r: 10
+                }
+              ]
+            };
+            sites.push(site);
+          };
+
+
+          var data = { labels: ["Distribution"], datasets: sites };
+          var options = {
+            legend: {
+              position: 'bottom',
+              display: false,
+            },
+            title: { display: true, text: 'totprice / profit' },
+            scales: {
+              yAxes:
+                [
+                  {
+                    scaleLabel: { display: false, labelString: "Profit : [roce]" },
+                    ticks: { beginAtZero: true, max: 100 }
+                  }
+                ],
+              xAxes:
+                [
+                  {
+                    scaleLabel: { display: false, labelString: "Indice" },
+                    ticks: { beginAtZero: true, max: 100 }
+                  }
+                ]
+            }
+          };
+
+          var ctx = $bubbleChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: "bubble",
+            data: data
+
+
+
+
+
+          });
+
+        }
+      });
+
+
+
+      var $mixedChart = $("#mixed-chart");
+      $.ajax({
+        url: $mixedChart.data("url"),
+        success: function (data) {
+
+          var ctx = $mixedChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+    data: {
+      labels: ["1900", "1950", "1999", "2050"],
+      datasets: [{
+          label: "Europe",
+          type: "line",
+          borderColor: "#8e5ea2",
+          data: [408,547,675,734],
+          fill: false
+        }, {
+          label: "Africa",
+          type: "line",
+          borderColor: "#3e95cd",
+          data: [133,221,783,2478],
+          fill: false
+        }, {
+          label: "Europe",
+          type: "bar",
+          backgroundColor: "rgba(0,0,0,0.2)",
+          data: [408,547,675,734],
+        }, {
+          label: "Africa",
+          type: "bar",
+          backgroundColor: "rgba(0,0,0,0.2)",
+          backgroundColorHover: "#3e95cd",
+          data: [133,221,783,2478]
+        }
+      ]
+    },
+            options: {
+
+
+              responsive: true,
+              legend: {
+                position: 'bottom',
+                display: false,
+              },
+
+              title: {
+                display: true,
+                text: 'Portfolio',
+                fontSize: 18,
+              },
+
+            },
+
+            "valuePosition": "inside"
+          });
+
+        }
+      });
+
+
+
+
+
+
+
+    });
+  </script>
+  {% endblock extrascripts %}

@@ -1,0 +1,1745 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include "_modal.html" %}
+
+
+
+<!-- 
+<div class="container">
+  <div class="row float-right">
+    <div class="col-xs-12">
+      <div class="col-12 mb-3">
+        {% if not user.is_anonymous %}
+        <span>
+          Your are logged in as
+          <strong>{{ user }}</strong>.
+        </span>
+        <a href="{% url 'logout' %}" id="logout-btn" class="btn btn-danger btn-sm" role="button">Log out</a>
+        {% else %}
+        <button id="login-btn" class="btn btn-primary btn-sm" type="button" name="button">Log in</button>
+        {% endif %}
+        <button id="signup-btn" class="btn btn-primary btn-sm" type="button" name="button">Sign up</button>
+      </div>
+
+
+    </div>
+  </div>
+</div> -->
+<!-- Login Signout End -->
+
+
+<!-- test start -->
+
+
+
+<!-- test end -->
+
+<!-- 
+<div class="container">
+
+
+<div  style="color:rgb(83, 83, 83); float:right;  margin-top:10px;  margin-bottom:10px;">
+fgdfgdsfg
+  <a href="{% url 'refresh' %}" id="refresh-MyStocks" class="btn btn-primary btn-sm  " role="button"><span
+    class="fa fa-refresh mr-2 "></span>Refresh</a>
+
+
+</div>
+</div> -->
+
+
+
+
+<div class="container">
+
+ 
+
+  
+  <!-- Nav pills  nav-pills -->
+  <ul class=" nav navbar-expand-md nav-pills navbar-light nav-justified " style="background-color:#242526;">
+    <li class="nav-item">
+      <a class="nav-link active " data-toggle="pill" href="#home">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " data-toggle="pill" href="#menu1">Details</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu2">Trends</a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu3">Etc.</a>
+    </li> -->
+  </ul>
+
+  <p></p>
+  <!-- <hr> -->
+
+
+
+
+
+  <!-- <div class="container"> -->
+  <!-- Navbar -->
+  <!-- Important: columns can be used directly in navbar since it is d-flex -->
+
+
+  <!-- End Navbar -->
+  <!-- </div> -->
+
+
+
+
+
+
+  <!-- Tab panes start-->
+  <div class="tab-content">
+
+
+
+    <!-- home start -->
+    <div class="tab-pane active" id="home">
+      <!-- 두번째 차트 - 누적 잔고 -->
+
+      <!-- <a href="{% url 'refresh' %}" id="refresh-MyStocks" class="btn btn-primary btn-sm  " role="button"><span
+          class="fa fa-refresh mr-2 "></span>Refresh</a> -->
+      {% if not user.is_anonymous %}
+      <p>
+      <div span class="custom-second-text" style=" float:right">Last Update : {{updatetime}}
+        <a href="{% url 'refresh' %}" id="refresh-MyStocks" class="btn btn-md " style="color:#E4E6EB; box-shadow: none;" role="button">
+          <span class="fa fa-refresh mr-2 "></span></a>
+      </div>&nbsp;</p>
+      <hr>
+      {% else %}
+
+      <p> </p>
+      {% endif %}
+
+
+
+      <div class="card overflow-hidden customcard">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <span style="color:#ff4444"><i class="fa fa-database fa-2x float-left mr-2"></i></span>
+
+              </div>
+              <div class="media-body custom-primary-text">
+
+                <h6>&nbsp;&nbsp;Total of</h6>
+
+                <div class="custom-second-text">
+                  {% if finaltotalamounts_domestic > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Domestic</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_overseas > 0 %}
+                  <span> &nbsp;&nbsp;&nbsp;Overseas</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_coin > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Coin</span><br>
+                  {% endif %}
+                </div>
+
+              </div>
+              {% load humanize %}
+              <div class="align-self-center custom-primary-text">
+                <!-- <div style="float:right;">
+                  
+                    {{finaltotalamounts|intcomma}}
+
+                    &nbsp; -->
+                <h6> {% if diff_finaltotalamounts > 0%}
+                  <span class="plus-color" style="font-size: 12px; "> &uarr;
+                    <script type="text/javascript">
+                      var a = "{{diff_finaltotalamounts}}"
+                      document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                    </script>
+                  </span>
+                  {% endif %}
+                  {% if diff_finaltotalamounts < 0%} <span class="minus-color" style="font-size: 12px; "> &darr;
+
+                    <script type="text/javascript">
+                      var a = "{{diff_finaltotalamounts}}"
+                      document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                    </script>
+                    </span>
+                    {% endif %}
+
+                    {% if diff_finaltotalamounts == 0%}
+                    <span class="nochanges-color" style="font-size: 12px; "> -
+                    </span>
+                    {% endif %}
+
+
+                    &nbsp; <div style="float:right;">{{finaltotalamounts|intcomma}}
+                    </div>
+                </h6>
+
+                <div class="custom-second-text">
+                  {% if finaltotalamounts_domestic > 0%}
+                  <span>
+                    <!-- <div style="float:right;">{{finaltotalamounts_domestic|intcomma}} -->
+
+                    &nbsp;
+                    {% if diff_finaltotalamounts_domestic > 0%}
+                    <span class="plus-color " style="font-size: 10px;"> &uarr;
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_domestic}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                    </span>
+                    {% endif %}
+                    {% if diff_finaltotalamounts_domestic < 0%} <span class="minus-color" style="font-size: 10px;">
+                      &darr;
+
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_domestic}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                  </span>
+                  {% endif %}
+
+                  {% if diff_finaltotalamounts_domestic == 0%}
+                  <span class="nochanges-color" style="font-size: 10px;"> -
+                  </span>
+                  {% endif %}
+                  &nbsp; <div style="float:right;">{{finaltotalamounts_domestic|intcomma}}</div>
+                  </span><br>
+                  {% endif %}
+
+
+
+
+                  {% if finaltotalamounts_overseas > 0 %}
+                  <span>
+                    <!-- <div style="float:right;">{{finaltotalamounts_overseas|intcomma}}  &nbsp; -->
+                    {% if diff_finaltotalamounts_overseas > 0%}
+                    <span class="plus-color" style="font-size: 10px; "> &uarr;
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_overseas}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                    </span>
+                    {% endif %}
+                    {% if diff_finaltotalamounts_overseas < 0%} <span class="minus-color" style="font-size: 10px;">
+                      &darr;
+
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_overseas}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                  </span>
+                  {% endif %}
+
+                  {% if diff_finaltotalamounts_overseas == 0%}
+                  <span class="nochanges-color" style="font-size: 10px;"> -
+                  </span>
+                  {% endif %}
+                  &nbsp; <div style="float:right;">{{finaltotalamounts_overseas|intcomma}}</div>
+
+
+
+
+
+
+                  </span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_coin > 0 %}
+                  <span>
+                    <!-- <div style="float:right;">{{finaltotalamounts_coin|intcomma}}&nbsp; -->
+                    {% if diff_finaltotalamounts_coin > 0%}
+                    <span class="plus-color" style="font-size: 10px;"> &uarr;
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_coin}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                    </span>
+                    {% endif %}
+                    {% if diff_finaltotalamounts_coin < 0%} <span class="minus-color" style="font-size: 10px;"> &darr;
+
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_coin}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                  </span>
+                  {% endif %}
+
+                  {% if diff_finaltotalamounts_coin == 0%}
+                  <span class="nochanges-color" style="font-size: 10px;"> -
+                  </span>
+                  {% endif %}
+
+                  &nbsp; <div style="float:right;">{{finaltotalamounts_coin|intcomma}}</div>
+
+                  </span>
+                  {% endif %}
+                </div>
+
+
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <p></p>
+
+
+      <div class="card overflow-hidden customcard">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <span style="color:#ffbb33"><i class="fa fa-pie-chart fa-2x float-left mr-2"></i></span>
+
+              </div>
+              <div class="media-body custom-primary-text">
+                <h6>&nbsp;&nbsp;Number of</h6>
+
+                <div class="custom-second-text">
+                  {% if finaltotalamounts_domestic > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Domestic</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_overseas > 0 %}
+                  <span> &nbsp;&nbsp;&nbsp;Overseas</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_coin > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Coin</span><br>
+                  {% endif %}
+                </div>
+
+
+              </div>
+              <div class="align-self-center custom-primary-text">
+                <h6>
+                  {% if finaltotalamounts > 0%}
+                  {% if forevercount_total > 0 %}
+                  <span style="font-size: 12px; color: gold; ">
+                    (<i class="fa fa-star"></i> {{forevercount_total}})
+                  </span>
+                  {% endif %}
+
+                  &nbsp; <div style="float:right;">{{totalnumbers|intcomma}}
+                  </div> {% endif %}
+                </h6>
+                <div class="custom-second-text">
+                  <div style="float:right;">
+                    {% if finaltotalamounts_domestic > 0 %}
+                    <span>
+                      {% if forevercount_domestic > 0 %}
+                      <span style="font-size: 10px; color: gold; ">
+                        (<i class="fa fa-star"></i> {{forevercount_domestic}})
+                      </span>
+                      {% endif %}
+                      &nbsp;
+                      <div style="float:right;">{{totalnumbers_domestic|intcomma}}</div>
+                    </span><br>
+                    {% endif %}
+                    {% if finaltotalamounts_overseas > 0 %}
+                    <span>
+                      {% if forevercount_overseas > 0 %}
+                      <span style="font-size: 10px; color: gold; ">
+                        (<i class="fa fa-star"></i> {{forevercount_overseas}})
+                      </span>
+                      {% endif %}
+                      &nbsp;
+                      <div style="float:right;">{{totalnumbers_overseas|intcomma}}</div>
+                    </span><br>
+                    {% endif %}
+                    {% if finaltotalamounts_coin > 0 %}
+                    <span>
+                      {% if forevercount_coin > 0 %}
+                      <span style="font-size: 10px; color: gold; ">
+                        (<i class="fa fa-star"></i> {{forevercount_coin}})
+                      </span>
+                      {% endif %}
+                      &nbsp;
+                      <div style="float:right;"> {{totalnumbers_coin|intcomma}}</div>
+                    </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p></p>
+
+
+      <div class="card overflow-hidden customcard">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <span style="color:#00C851"><i class="fa fa-line-chart fa-2x float-left mr-2"></i></span>
+
+                {% load humanize %}
+              </div>
+              <div class="media-body custom-primary-text">
+                <h6>&nbsp;&nbsp;Rate of</h6>
+
+                <div class="custom-second-text">
+                  {% if finaltotalamounts_domestic > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Domestic</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_overseas > 0 %}
+                  <span> &nbsp;&nbsp;&nbsp;Overseas</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_coin > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Coin</span><br>
+                  {% endif %}
+                </div>
+
+              </div>
+              <div class="align-self-center custom-primary-text">
+
+                <h6>{% if finaltotalamounts > 0%}
+                  {% if prevtotratio > 0%}
+                  <span class="plus-color" style="font-size: 12px; "> &uarr;
+                    <script type="text/javascript">
+                      var a = "{{prevtotratio}}"
+                      document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                    </script>%
+                  </span>
+                  {% endif %}
+                  {% if prevtotratio < 0%} <span class="minus-color" style="font-size: 12px; "> &darr;
+
+                    <script type="text/javascript">
+                      var a = "{{prevtotratio}}"
+                      document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                    </script>%
+                    </span>
+                    {% endif %}
+
+                    {% if prevtotratio == 0%}
+                    <span class="nochanges-color" style="font-size: 12px; "> -
+                    </span>
+                    {% endif %}
+
+
+                    &nbsp; <div style="float:right;">{{totratio|intcomma}}%
+                    </div>
+                    {% endif %}
+                </h6>
+
+                <div class="custom-second-text">
+                  <div style="float:right;">
+
+                    {% if finaltotalamounts_domestic > 0%}
+                    <span>
+                      <!-- <div style="float:right;">{{finaltotalamounts_domestic|intcomma}} -->
+
+                      &nbsp;
+                      {% if prevtotratio_domestic > 0%}
+                      <span class="plus-color " style="font-size: 10px;"> &uarr;
+                        <script type="text/javascript">
+                          var a = "{{prevtotratio_domestic}}"
+                          document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                        </script>%
+                      </span>
+                      {% endif %}
+                      {% if prevtotratio_domestic < 0%} <span class="minus-color" style="font-size: 10px;"> &darr;
+
+                        <script type="text/javascript">
+                          var a = "{{prevtotratio_domestic}}"
+                          document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                        </script>%
+                    </span>
+                    {% endif %}
+
+                    {% if prevtotratio_domestic == 0%}
+                    <span class="nochanges-color" style="font-size: 10px;"> -
+                    </span>
+                    {% endif %}
+                    &nbsp; <div style="float:right;">{{totratio_domestic|intcomma}}%</div>
+                    </span><br>
+                    {% endif %}
+
+
+
+                    {% if finaltotalamounts_overseas > 0 %}
+                    <span>
+                      <!-- <div style="float:right;">{{finaltotalamounts_domestic|intcomma}} -->
+
+                      &nbsp;
+                      {% if prevtotratio_overseas > 0%}
+                      <span class="plus-color " style="font-size: 10px;"> &uarr;
+                        <script type="text/javascript">
+                          var a = "{{prevtotratio_overseas}}"
+                          document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                        </script>%
+                      </span>
+                      {% endif %}
+                      {% if prevtotratio_overseas < 0%} <span class="minus-color" style="font-size: 10px;"> &darr;
+
+                        <script type="text/javascript">
+                          var a = "{{prevtotratio_overseas}}"
+                          document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                        </script>%
+                    </span>
+                    {% endif %}
+
+                    {% if prevtotratio_overseas == 0%}
+                    <span class="nochanges-color" style="font-size: 10px;"> -
+                    </span>
+                    {% endif %}
+                    &nbsp; <div style="float:right;">{{totratio_overseas|intcomma}}%</div>
+                    </span><br>
+
+                    {% endif %}
+                    {% if finaltotalamounts_coin > 0 %}
+                    <span>
+                      <!-- <div style="float:right;">{{finaltotalamounts_domestic|intcomma}} -->
+
+                      &nbsp;
+                      {% if prevtotratio_coin > 0%}
+                      <span class="plus-color " style="font-size: 10px;"> &uarr;
+                        <script type="text/javascript">
+                          var a = "{{prevtotratio_coin}}"
+                          document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                        </script>%
+                      </span>
+                      {% endif %}
+                      {% if prevtotratio_coin < 0%} <span class="minus-color" style="font-size: 10px;"> &darr;
+
+                        <script type="text/javascript">
+                          var a = "{{prevtotratio_coin}}"
+                          document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                        </script>%
+                    </span>
+                    {% endif %}
+
+                    {% if prevtotratio_coin == 0%}
+                    <span class="nochanges-color" style="font-size: 10px;"> -
+                    </span>
+                    {% endif %}
+                    &nbsp; <div style="float:right;">{{totratio_coin|intcomma}}%</div>
+                    </span><br>
+
+                    {% endif %}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p></p>
+
+      <div class="card overflow-hidden customcard">
+        <div class="card-content">
+          <div class="card-body cleartfix">
+            <div class="media align-items-stretch">
+              <div class="align-self-center">
+                <span style="color:#33b5e5"><i class="fa fa-bar-chart fa-2x float-left mr-2"></i></span>
+              </div>
+              <div class="media-body custom-primary-text">
+                <h6>&nbsp;&nbsp;Return on</h6>
+
+                <div class="custom-second-text">
+                  {% if finaltotalamounts_domestic > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Domestic</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_overseas > 0 %}
+                  <span> &nbsp;&nbsp;&nbsp;Overseas</span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_coin > 0 %}
+                  <span>&nbsp;&nbsp;&nbsp;Coin</span><br>
+                  {% endif %}
+                </div>
+
+              </div>
+              <div class="align-self-center custom-primary-text">
+
+
+                <h6> {% if diff_finaltotalamounts > 0%}
+                  <span class="plus-color" style="font-size: 12px; "> &uarr;
+                    <script type="text/javascript">
+                      var a = "{{diff_finaltotalamounts}}"
+                      document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                    </script>
+                  </span>
+                  {% endif %}
+                  {% if diff_finaltotalamounts < 0%} <span class="minus-color" style="font-size: 12px; "> &darr;
+
+                    <script type="text/javascript">
+                      var a = "{{diff_finaltotalamounts}}"
+                      document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                    </script>
+                    </span>
+                    {% endif %}
+
+                    {% if diff_finaltotalamounts == 0%}
+                    <span class="nochanges-color" style="font-size: 12px; "> -
+                    </span>
+                    {% endif %}
+
+
+                    &nbsp;
+
+                    {{totprice|intcomma}}
+                </h6>
+
+
+
+                <div class="custom-second-text">
+                  {% if finaltotalamounts_domestic > 0%}
+                  <span>
+                    <!-- <div style="float:right;">{{finaltotalamounts_domestic|intcomma}} -->
+
+                    &nbsp;
+                    {% if diff_finaltotalamounts_domestic > 0%}
+                    <span class="plus-color " style="font-size: 10px;"> &uarr;
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_domestic}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                    </span>
+                    {% endif %}
+                    {% if diff_finaltotalamounts_domestic < 0%} <span class="minus-color" style="font-size: 10px;">
+                      &darr;
+
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_domestic}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                  </span>
+                  {% endif %}
+
+                  {% if diff_finaltotalamounts_domestic == 0%}
+                  <span class="nochanges-color" style="font-size: 10px;"> -
+                  </span>
+                  {% endif %}
+                  &nbsp; <div style="float:right;">{{totprice_domestic|intcomma}}</div>
+                  </span><br>
+                  {% endif %}
+
+
+
+
+                  {% if finaltotalamounts_overseas > 0 %}
+                  <span>
+                    <!-- <div style="float:right;">{{finaltotalamounts_overseas|intcomma}}  &nbsp; -->
+                    {% if diff_finaltotalamounts_overseas > 0%}
+                    <span class="plus-color" style="font-size: 10px; "> &uarr;
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_overseas}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                    </span>
+                    {% endif %}
+                    {% if diff_finaltotalamounts_overseas < 0%} <span class="minus-color" style="font-size: 10px;">
+                      &darr;
+
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_overseas}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                  </span>
+                  {% endif %}
+
+                  {% if diff_finaltotalamounts_overseas == 0%}
+                  <span class="nochanges-color" style="font-size: 10px;"> -
+                  </span>
+                  {% endif %}
+                  &nbsp; <div style="float:right;">{{totprice_overseas|intcomma}}</div>
+
+
+
+
+
+
+                  </span><br>
+                  {% endif %}
+                  {% if finaltotalamounts_coin > 0 %}
+                  <span>
+                    <!-- <div style="float:right;">{{finaltotalamounts_coin|intcomma}}&nbsp; -->
+                    {% if diff_finaltotalamounts_coin > 0%}
+                    <span class="plus-color" style="font-size: 10px;"> &uarr;
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_coin}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                    </span>
+                    {% endif %}
+                    {% if diff_finaltotalamounts_coin < 0%} <span class="minus-color" style="font-size: 10px;"> &darr;
+
+                      <script type="text/javascript">
+                        var a = "{{diff_finaltotalamounts_coin}}"
+                        document.write(Math.abs(a).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));            
+                      </script>
+                  </span>
+                  {% endif %}
+
+                  {% if diff_finaltotalamounts_coin == 0%}
+                  <span class="nochanges-color" style="font-size: 10px;"> -
+                  </span>
+                  {% endif %}
+
+                  &nbsp; <div style="float:right;">{{totprice_coin|intcomma}}</div>
+
+                  </span>
+                  {% endif %}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <hr>
+
+
+
+      <!-- 로딩 시간 문제로 임시 주석 처리 -->
+      <div class="card overflow-hidden customcard">
+        <div class="card-content">
+          <!-- 
+          <h6 class="card-title custom-primary-text float:left;  margin-top:10px; 
+          margin-bottom:10px; margin-left:10px">Profits - Amounts</h6> -->
+          <!-- <h5 class="card-subtitle mb-2 text-muted"> Card subtitle</h5> -->
+          <canvas id="bubble-chart" data-url="{% url 'bubble-chart' %}"></canvas>
+
+
+        </div>
+
+      </div>
+
+
+
+      <p></p>
+
+
+      <!-- 믹스드차트 -->
+
+      <div class="card overflow-hidden customcard">
+        <div class="card-content">
+          <!-- 
+          <h6 class="card-title custom-primary-text float:left;  margin-top:10px; 
+          margin-bottom:10px; margin-left:10px">Amounts - Profits</h6> -->
+          <!-- <h5 class="card-subtitle mb-2 text-muted"> Card subtitle</h5> -->
+          <canvas id="mixed-chart" data-url="{% url 'mixed-chart' %}"></canvas>
+
+
+        </div>
+
+      </div>
+
+
+
+      <p></p>
+
+      <div class="card overflow-hidden customcard">
+        <div class="card-content ">
+          <!-- <h6 class="card-title custom-primary-text float:left;  margin-top:10px; 
+          margin-bottom:10px; margin-left:10px">Amounts - Date</h6> -->
+          <!-- <h5 class="card-subtitle mb-2 text-muted"> Card subtitle</h5> -->
+          <canvas id="accumulate-chart" data-url="{% url 'accumulate-chart' %}"></canvas>
+
+        </div>
+      </div>
+
+      <p></p>
+
+      <div class="card overflow-hidden customcard">
+        <div class="card-content">
+
+          <!-- <h6 class="card-title custom-primary-text float:left;  margin-top:10px; 
+          margin-bottom:10px; margin-left:10px">Markets - Portfolio</h6> -->
+          <!-- <h5 class="card-subtitle mb-2 text-muted"> Card subtitle</h5> -->
+          <canvas id="population-chart" data-url="{% url 'population-chart' %}"></canvas>
+
+
+        </div>
+
+      </div>
+      <p></p>
+
+
+
+      <!-- <div id="container" style="width: 100%;">
+
+          <canvas id="accumulate-chart" data-url="{% url 'accumulate-chart' %}"></canvas>
+
+        </div>
+
+ 
+        <hr>
+        <div id="container" style="width: 100%;">
+
+          <canvas id="population-chart" data-url="{% url 'population-chart' %}"></canvas>
+
+        </div>  -->
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- menu1 start -->
+    <div class="tab-pane fade" id="menu1">
+
+
+
+      {% if not user.is_anonymous %}
+
+
+      <button id="create-MyStocks-sync" class="btn  btn-sm btn-secondary" type="button" name="button">
+        <span class="fa fa-plus mr-2"></span>Create
+      </button>
+      <!-- <button id="create-MyStocks-async" class="btn btn-primary" type="button" name="button">
+        <span class="fa fa-plus mr-2"></span>Create MyStocks - Asynchronous
+      </button> -->
+      <button id="filter-MyStocks" class="bs-modal btn   btn-sm  btn-secondary" type="button" name="button"
+        data-form-url="{% url 'filter_mystock' %}">
+        <span class="fa fa-filter mr-2"></span>Filter
+      </button>
+
+      <!-- <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> -->
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script> -->
+      <!-- <a href="{% url 'refresh' %}" id="refresh-MyStocks" class="btn btn-primary btn-sm " role="button"><span class="fa fa-refresh mr-2"></span>Refresh</a> -->
+      <!-- <button id="refresh-MyStocks" class="btn btn-primary" type="button" name="button" data-form-url="{% url 'refresh' %}">
+        <span class="fa fa-filter mr-2"></span>Filter
+      </button> -->
+
+
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script> -->
+
+      {% endif %}
+
+
+      <p></p>
+
+      <!-- 로그인했을 때만 목록 보여주기  -->
+      {% if user.is_anonymous %}
+      <p class="no-mystocks text-primary">No logged in, otherwise Sign up.</p>
+      {% elif mystocks and not user.is_anonymous %}
+      {% include "_mystocks_table.html" %}
+      {% else %}
+      <p class="no-mystocks text-primary">No mystocks added yet.</p>
+      {% endif %}
+
+
+    </div>
+
+    <!-- menu1 end -->
+
+
+    <!-- menu2 start -->
+    <div class="tab-pane fade" id="menu2">
+      {% if not user.is_anonymous %}
+      <button id="create-balances-sync" class="btn btn-secondary btn-sm" type="button" name="button">
+        <span class="fa fa-plus mr-2"></span>Create
+      </button>
+      {% endif %}
+
+
+      <p></p>
+      <!-- 로그인했을 때만 목록 보여주기  -->
+      {% if user.is_anonymous %}
+      <p class="no-balances text-primary">No logged in, otherwise Sign up.</p>
+      {% elif balances and not user.is_anonymous %}
+      {% include "_balances_table.html" %}
+      {% else %}
+      <p class="no-balances text-primary">No balances added yet.</p>
+      {% endif %}
+
+    </div>
+    <!-- menu2 end -->
+
+
+    <!-- menu3 start -->
+    <div class="tab-pane fade" id="menu3">
+
+      <div class="custom-second-text" style="font-size: 15px;"><i>To be added ..</i></div>
+      <p></p>
+      <!-- <button href="#Bar" class="btn btn-secondary btn-sm" data-toggle="collapse">Index Indicator</button>
+      <div id="Bar" class="collapse"> -->
+
+      <!-- 로딩 시간 문제로 임시 주석 처리 -->
+      <!-- <canvas id="kospi-chart" data-url="{% url 'kospi-chart' %}"></canvas> -->
+
+      <!-- </div> -->
+
+    </div>
+
+
+
+  </div>
+  <!-- Tab panes end-->
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
+
+
+
+
+
+
+  {% endblock content %}
+
+  {% block extrascripts %}
+
+
+
+
+  <script type="text/javascript">
+
+
+  /* Code for changing active 
+    link on clicking */
+    var btns = 
+        $("#navigation .navbar-nav .nav-link");
+
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click",
+                              function () {
+            var current = document
+                .getElementsByClassName("active");
+
+            current[0].className = current[0]
+                .className.replace(" active", "");
+
+            this.className += " active";
+        });
+    }
+
+    /* Code for changing active 
+    link on Scrolling */
+    $(window).scroll(function () {
+        var distance = $(window).scrollTop();
+        $('.page-section').each(function (i) {
+
+            if ($(this).position().top 
+                <= distance + 250) {
+                  
+                    $('.navbar-nav a.active')
+                        .removeClass('active');
+
+                    $('.navbar-nav a').eq(i)
+                        .addClass('active');
+            }
+        });
+    }).scroll();
+
+
+    $(function () {
+      // Log in & Sign up buttons
+      // The formURL is given explicitly
+      $("#login-btn").modalForm({
+        formURL: "{% url 'login' %}"
+      });
+
+      $("#signup-btn").modalForm({
+        formURL: "{% url 'signup' %}"
+      });
+
+
+      // $("#refresh-MyStocks").click(function () {
+      //   // disable button
+      //   $(this).prop("disabled", true);
+      //   // add spinner to button
+      //   $(this).html(
+      //     `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+      //   );
+      // });
+
+
+      $("#refresh-MyStocks").click(function () {
+        // disable button
+        $(this).prop("disabled", true);
+        // add spinner to button
+        $(this).html(
+          `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
+        );
+      });
+
+
+      // Create MyStocks button opens modal with id="create-modal"
+      /* 
+      $("#create-MyStocks").modalForm({
+        formURL: "{% url 'create_mystock' %}",
+        modalID: "#create-modal"
+      });
+      */
+
+      function createmystocksyncModalForm() {
+        $("#create-MyStocks-sync").modalForm({
+          formURL: "{% url 'create_mystock' %}",
+          modalID: "#create-modal"
+        });
+      }
+      createmystocksyncModalForm();
+
+      function createBalancesSyncModalForm() {
+        $("#create-balances-sync").modalForm({
+          formURL: "{% url 'create_balances' %}",
+          modalID: "#create-modal"
+        });
+      }
+      createBalancesSyncModalForm();
+
+
+
+      var asyncSuccessMessageCreate = [
+        "<div ",
+        "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+        "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+        "Success: MyStocks was created.",
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+        "<span aria-hidden='true'>&times;</span>",
+        "</button>",
+        "</div>",
+        "<script>",
+        "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+        "<\/script>"
+      ].join("");
+
+      var asyncSuccessMessageUpdate = [
+        "<div ",
+        "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+        "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+        "Success: MyStocks was updated.",
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+        "<span aria-hidden='true'>&times;</span>",
+        "</button>",
+        "</div>",
+        "<script>",
+        "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+        "<\/script>"
+      ].join("");
+
+      function updateMyStockModalForm() {
+        $(".update-mystocks").each(function () {
+          $(this).modalForm({
+            formURL: $(this).data("form-url"),
+            asyncUpdate: false,
+            asyncSettings: {
+              closeOnSubmit: false,
+              successMessage: asyncSuccessMessageUpdate,
+              dataUrl: "mystocks/",
+              dataElementId: "#mystocks-table",
+              dataKey: "table",
+              addModalFormFunction: updateMyStockModalForm
+            }
+          });
+        });
+      }
+      updateMyStockModalForm();
+
+      function updateBalancesModalForm() {
+        $(".update-balances").each(function () {
+          $(this).modalForm({
+            formURL: $(this).data("form-url"),
+            asyncUpdate: true,
+            asyncSettings: {
+              closeOnSubmit: false,
+              successMessage: asyncSuccessMessageUpdate,
+              dataUrl: "balances/",
+              dataElementId: "#balances-table",
+              dataKey: "table",
+              addModalFormFunction: updateBalancesModalForm
+            }
+          });
+        });
+      }
+      updateBalancesModalForm();
+
+
+
+      function createMyStockAsyncModalForm() {
+        $("#create-MyStocks-async").modalForm({
+          formURL: "{% url 'create_mystock' %}",
+          modalID: "#create-modal",
+          asyncUpdate: true,
+          asyncSettings: {
+            closeOnSubmit: true,
+            successMessage: asyncSuccessMessageCreate,
+            dataUrl: "mystocks/",
+            dataElementId: "#mystocks-table",
+            dataKey: "table",
+            addModalFormFunction: updateMyStockModalForm
+          }
+        });
+      }
+      createMyStockAsyncModalForm();
+
+
+
+
+      // Read and Delete MyStocks buttons open modal with id="modal"
+      // The formURL is retrieved from the data of the element
+      $(".bs-modal").each(function () {
+        $(this).modalForm({ formURL: $(this).data("form-url") });
+      });
+
+      // Hide message
+      $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+        $(".alert").slideUp(500);
+      });
+
+
+
+
+      var $accumulateChart = $("#accumulate-chart");
+      $.ajax({
+        url: $accumulateChart.data("url"),
+        success: function (data) {
+
+          var ctx = $accumulateChart[0].getContext("2d");
+
+          var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient.addColorStop(0, 'rgba(51, 51, 255,.7)');
+          gradient.addColorStop(1, 'rgba(51, 51, 255,0)');
+
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Account Amount',
+                // backgroundColor: ['rgba(32,99,255,0.5'],
+                // borderColor: ['rgba(32, 99, 120, 1)'],
+                // hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                // hoverBorderColor: "rgba(234, 236, 244, 1)",
+                data: data.data,
+
+                pointDot: true,
+                backgroundColor: gradient,
+                borderColor: "#B0B3B8",
+                // pointColor: "#4444444",
+                pointHighlightColor: "#0000ff",
+                borderWidth: 1,
+                pointRadius: 2,
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    // beginAtZero:true
+                    // display: false,
+                    mirror: true,
+                  },
+
+                }],
+                xAxes: [{
+                  ticks: {
+                    // beginAtZero:true
+                    display: false,
+
+                  },
+                  gridLines: {
+                    display: false,
+                  },
+
+
+
+                }]
+              },
+
+
+
+
+              legend: {
+                position: 'bottom',
+                display: false,
+              },
+
+              title: {
+                display: true,
+                text: 'Amount Trends',
+                fontSize: 15,
+                fontColor: "#B0B3B8",
+              },
+
+
+              // plugins: {
+              //   labels: {
+              //     // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+              //     render: 'value',
+
+              //     // precision for percentage, default is 0
+              //     precision: 0,
+
+              //     // identifies whether or not labels of value 0 are displayed, default is false
+              //     showZero: true,
+
+              //     // font size, default is defaultFontSize
+              //     fontSize: 12,
+
+              //     // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+              //     // fontColor: '#fff',
+
+              //     // font style, default is defaultFontStyle
+              //     // fontStyle: 'normal',
+
+              //     // font family, default is defaultFontFamily
+              //     // fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+              //     // draw text shadows under labels, default is false
+              //     // textShadow: true,
+
+              //     // text shadow intensity, default is 6
+              //     // shadowBlur: 10,
+
+              //     // text shadow X offset, default is 3
+              //     shadowOffsetX: -5,
+
+              //     // text shadow Y offset, default is 3
+              //     shadowOffsetY: 5,
+
+              //     // text shadow color, default is 'rgba(0,0,0,0.3)'
+              //     // shadowColor: 'rgba(0,0,0,0.3)',
+
+              //     // draw label in arc, default is false
+              //     // bar chart ignores this
+              //     // arc: false,
+
+              //     // position to draw label, available value is 'default', 'border' and 'outside'
+              //     // bar chart ignores this
+              //     // default is 'default'
+              //     position: 'default',
+
+              //     // draw label even it's overlap, default is true
+              //     // bar chart ignores this
+              //     overlap: true,
+
+              //     // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+              //     showActualPercentages: true,
+
+              //     // set images when `render` is 'image'
+              //     // images: [
+              //     //   {
+              //     //     src: 'image.png',
+              //     //     width: 16,
+              //     //     height: 16
+              //     //   }
+              //     // ],
+
+              //     // add padding when position is `outside`
+              //     // default is 2
+              //     outsidePadding: 4,
+
+              //     // add margin of text when position is `outside` or `border`
+              //     // default is 2
+              //     textMargin: 4
+              //   }
+              // }
+            },
+
+            "valuePosition": "inside"
+          });
+
+        }
+      });
+
+      var $populationChart = $("#population-chart");
+      $.ajax({
+        url: $populationChart.data("url"),
+        success: function (data) {
+
+          var ctx = $populationChart[0].getContext("2d");
+
+
+          var gradient1 = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient1.addColorStop(0, 'rgba(51, 51, 255,.7)');
+          gradient1.addColorStop(1, 'rgba(51, 51, 255,0)');
+
+          var gradient3 = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient3.addColorStop(0, 'rgba(217, 83, 79,.7)');
+          gradient3.addColorStop(1, 'rgba(217, 83, 79,0)');
+
+          var gradient4 = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient4.addColorStop(0, 'rgba(92, 184, 92,.7)');
+          gradient4.addColorStop(1, 'rgba(92, 184, 92,0)');
+
+
+
+          // var gradient1 = ctx.createLinearGradient(0, 0, 0, 175);
+          // gradient1.addColorStop(0.0, '#ACE1DB');
+          // gradient1.addColorStop(1.0, '#7FBDB9');
+
+
+          // var gradient2 = ctx.createLinearGradient(0, 0, 400, 400);
+          // gradient2.addColorStop(0, '#B5D57B');
+          // gradient2.addColorStop(1, '#98AF6E');
+
+          // var gradient3 = ctx.createLinearGradient(0, 0, 0, 175);
+          // gradient3.addColorStop(0, '#E36392');
+          // gradient3.addColorStop(1, '#FE92BD');
+
+
+          // var gradient4 = ctx.createLinearGradient(0, 0, 0, 175);
+          // gradient4.addColorStop(1, '#FAD35E');
+          // gradient4.addColorStop(0, '#F4AD4F');
+
+
+
+          new Chart(ctx, {
+
+            type: 'pie',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Population',
+                borderWidth: 1,
+                borderColor: '#B0B3B8',
+                backgroundColor: [gradient1, gradient3, gradient4],
+                // hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                // hoverBorderColor: "rgba(234, 236, 244, 1)",
+                data: data.data
+              }]
+            },
+            options: {
+
+
+              responsive: true,
+              legend: {
+                position: 'right',
+                display: true,
+              },
+
+              title: {
+                display: false,
+                text: 'Portfolio',
+                fontSize: 18,
+              },
+              title: {
+                display: true,
+                text: 'Portfolios',
+                fontSize: 15,
+                fontColor: "#B0B3B8",
+              },
+
+            },
+
+            "valuePosition": "inside"
+          });
+
+        }
+      });
+
+
+
+
+      var $bubbleChart = $("#bubble-chart");
+      $.ajax({
+        url: $bubbleChart.data("url"),
+
+        success: function (data) {
+
+
+          var dynamicColors = function () {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return "rgb(" + r + "," + g + "," + b + ")";
+          };
+
+
+
+          var sites = [];
+
+
+          for (var i = 0; i < data.name.length; i++) {
+
+            var site = {
+              label: data.name[i],
+
+              // backgroundColor: "rgb(69,70,72)",
+
+              backgroundColor: (data.r[i] == 1) ? "rgb(51, 51, 255)" : ((data.r[i] == 2) ? "	rgb(217, 83, 79)" : ((data.r[i] == 3) ? "	rgb(92, 184, 92)" : "rgb(41, 43, 44)")),
+
+              hoverBackgroundColor: (data.r[i] == 1) ? "rgb(51, 51, 255)" : ((data.r[i] == 2) ? "	rgb(217, 83, 79)" : ((data.r[i] == 3) ? "	rgb(92, 184, 92)" : "rgb(41, 43, 44)")),
+
+              borderColor: '#B0B3B8',
+              // radius: 10,
+              borderWidth: 1,
+              // hoverBorderWidth: 2,
+              hoverRadius: 5,
+              data: [
+                {
+                  x: data.x[i],
+                  y: data.y[i],
+                  r: 4
+                }
+              ]
+            };
+            sites.push(site);
+          };
+
+
+          var data = { labels: ["Distribution"], datasets: sites };
+          // var options = {
+          //   legend: {
+          //     // position: 'bottom',
+          //     display: false
+          //   },
+          //   tooltips: {
+          //     enabled: false
+          //   },
+          //   title: { display: false, text: 'totprice / profit' },
+          //   scales: {
+          //     yAxes:
+          //       [
+          //         {
+          //           scaleLabel: { display: false, labelString: "Profit : [roce]" },
+          //           ticks: { beginAtZero: false, max: 100 }
+          //         }
+          //       ],
+          //     xAxes:
+          //       [
+          //         {
+          //           scaleLabel: { display: false, labelString: "Indice" },
+          //           ticks: { beginAtZero: true, max: 100 }
+          //         }
+          //       ]
+          //   }
+          // };
+
+
+
+          var ctx = $bubbleChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: "bubble",
+            data: data,
+            options: {
+
+              legend: {
+                position: 'bottom',
+                display: false,
+              },
+              tooltips: {
+                enabled: true
+              },
+              title: { display: false, text: 'Profits - Amounts' },
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    // beginAtZero:true
+                    // display: false,
+                    mirror: true,
+                  }
+                }],
+                xAxes: [{
+                  ticks: {
+                    display: false, // x 축 값 없애기
+                  }
+                }]
+              },
+
+              title: {
+                display: true,
+                text: 'Distribution of Profits-Amounts',
+                fontSize: 15,
+                fontColor: "#B0B3B8",
+              },
+
+            }
+
+
+
+
+          });
+
+        }
+      });
+
+
+
+
+    });
+
+    // function myFunction(a) {
+    //   var x = Math.abs(a);
+
+
+    //   document.getElementById("demo").innerHTML = x;
+    // }
+
+
+
+
+
+    var $mixedChart = $("#mixed-chart");
+    $.ajax({
+      url: $mixedChart.data("url"),
+      success: function (data) {
+
+
+
+        var ctx = $mixedChart[0].getContext("2d");
+
+        var max = data.dataprofitmax;
+
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.labels,
+            datasets: [
+              {
+                label: 'test',
+                yAxisID: 'test',
+                type: "line",
+
+                // borderColor:   "#ffffff",
+                data: data.dataprofit0,
+                // fill: false,
+
+
+                pointRadius: 1,
+                backgroundColor: "#B0B3B8",
+                // borderColor: ['rgba(32, 99, 120, 1)'],
+                // hoverBackgroundColor:  ['rgba(255,215,0,.5)'],
+                // hoverBorderColor: "rgba(234, 236, 244, 1)",
+                // data: data.data,
+
+                // pointDot: true,
+                // backgroundColor: gradient,
+                // borderColor: "#B0B3B8",
+                // pointColor: "#4444444",
+                // pointHighlightColor: ['rgba(255,215,0,.9)'],
+                // borderWidth: 1,
+                // pointRadius: 0,
+              },
+              {
+                label: 'Profits',
+                yAxisID: 'Profits',
+                type: "line",
+                borderColor: ['rgba(255,215,0,.9)'],
+                data: data.dataprofit,
+                fill: false,
+
+
+
+                backgroundColor: ['rgba(255,215,0,.5)'],
+                // borderColor: ['rgba(32, 99, 120, 1)'],
+                hoverBackgroundColor: ['rgba(255,215,0,.5)'],
+                // hoverBorderColor: "rgba(234, 236, 244, 1)",
+                // data: data.data,
+
+                // pointDot: true,
+                // backgroundColor: gradient,
+                // borderColor: "#B0B3B8",
+                // pointColor: "#4444444",
+                pointHighlightColor: ['rgba(255,215,0,.9)'],
+                // borderWidth: 1,
+                pointRadius: 0,
+              },
+
+
+              {
+                label: 'Amounts',
+                yAxisID: 'Amounts',
+                type: "bar",
+                // backgroundColor: "rgba(0,0,0,0.2)",
+                data: data.dataamount,
+                borderColor: data.dataprofitcolor, // "#3333FF",
+                // data: data.dataamount,
+
+
+                backgroundColor: data.dataprofitcolor //"#3333FF", 
+                // borderColor: ['rgba(51, 51, 255,1)'],
+                // hoverBackgroundColor: ['rgba(51, 51, 255,1)'],
+                // hoverBorderColor:  ['rgba(51, 51, 255,1)'],
+
+
+                // pointDot: true,
+                // backgroundColor: gradient,
+                // borderColor: "#B0B3B8",
+                // pointColor: "#4444444",
+                // pointHighlightColor: "#0000ff",
+                // borderWidth: 1,
+                // pointRadius: 2,
+
+              }]
+          },
+          options: {
+
+
+            responsive: true,
+            legend: {
+              position: 'right',
+              display: false
+            },
+            title: {
+              display: false,
+              text: 'Profits - Amounts'
+            },
+            legend: {
+              display: false
+            }
+            ,
+
+            scales: {
+              xAxes: [{
+                ticks: {
+                  display: false, // x 축 값 없애기
+                },
+                gridLines: {
+                  display: false,
+                },
+              }],
+              yAxes: [{
+                id: 'Amounts',
+                type: 'linear',
+                position: 'right',
+                ticks: {
+                  // display: false, // x 축 값 없애기
+                  mirror: true, // 안으로 값넣기
+                },
+                gridLines: {
+                  display: false,
+                },
+              }, {
+                id: 'Profits',
+                type: 'linear',
+                position: 'left',
+
+                ticks: {
+                  max: 500,
+                  min: -100,
+                  // display: false, 
+                  mirror: true,
+                  fontColor: "#B0B3B8",
+
+                },
+              }
+                , {
+                id: 'test',
+                type: 'linear',
+                position: 'left',
+                ticks: {
+                  max: 500,
+                  min: -100,
+                  display: false,
+                  // fontColor: "#ffffff", 
+                  // mirror: true,
+                },
+              }]
+            },
+
+
+            title: {
+              display: true,
+              text: 'Correlation of Profits-Amounts',
+              fontSize: 15,
+              fontColor: "#B0B3B8",
+            },
+
+          },
+
+          // "valuePosition": "inside"
+        });
+
+      }
+    });
+
+
+
+
+
+
+
+    var $kospiChart = $("#kospi-chart");
+    $.ajax({
+      url: $kospiChart.data("url"),
+      success: function (data) {
+
+        var ctx = $kospiChart[0].getContext("2d");
+
+        new Chart(ctx, {
+          type: 'line',
+          backgroundColor: "#F5DEB3",
+          data: {
+            labels: data.labels,
+            datasets: [{
+              label: 'Date',
+              backgroundColor: ['rgba(32,99,255,0.5'],
+              // borderColor: ['rgba(32, 99, 120, 1)'],
+              // hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+              // hoverBorderColor: "rgba(234, 236, 244, 1)",
+              data: data.data,
+
+              pointDot: false,
+              // backgroundColor: gradient,
+              borderColor: "#18191A",
+              // pointColor: "#4444444",
+              pointHighlightColor: "#0000ff",
+              borderWidth: 1,
+              pointRadius: 2,
+
+
+            }]
+          },
+          options: {
+
+            scales: {
+              yAxes: [{
+                ticks: {
+                  // beginAtZero:true
+                  // display: false,
+                  mirror: true,
+                }
+              }],
+              xAxes: [{
+                ticks: {
+                  // beginAtZero:true
+                  display: false,
+                }
+              }]
+            },
+
+            responsive: true,
+            legend: {
+              position: 'bottom',
+              display: false,
+            },
+
+            title: {
+              display: true,
+              text: 'KOSPI Index',
+              fontSize: 18,
+            },
+
+            plugins: {
+
+            }
+          },
+
+          // "valuePosition": "inside"
+        });
+
+      }
+    });
+
+
+  </script>
+  {% endblock extrascripts %}

@@ -1,0 +1,75 @@
+
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> 
+
+
+
+
+<table id="balances-table" class='table table-sm display custom-primary-text table-dark table-striped table-boarderless' style='width:100%;'>  <!-- class=" table-striped table table-responsive" : 모바일 사이즈를 위한 고정 설정-->
+  <thead>
+  <tr>
+    <th class="text-right" scope="col"  style="width: 4%" >#</th> 
+    <th class="text-center" scope="col">Date</th>
+    <th class="text-right" scope="col" >Amounts</th>
+    <th class="text-right" scope="col" >Profits</th>
+    <th class="text-right d-none d-sm-table-cell"  scope="col">Ratio</th>
+    <th class="text-center" scope="col" >Edit</th>
+
+ 
+
+
+  </tr>
+  </thead>
+  <tbody>
+
+  {% load humanize %}
+  {% for balance in balances %}
+    <tr>
+      <td class="text-center"></td>
+      <td class="text-center">{{balance.bdate |date:"Y-m-d"}}</td>
+      <td class="text-right">{{balance.bamount|intcomma}}</td>
+      <!-- <td class="text-right">{{balance.bincreased|intcomma}}</td> -->
+      
+      {% if balance.bincreased > 0 %}
+      <td class="text-right plus-color">{{balance.bincreased|intcomma}}</td>
+      {% elif balance.bincreased < 0 %} 
+      <td class="text-right minus-color" >{{balance.bincreased|intcomma}}</td>
+        {% else %}
+        <td class="text-right">{{balance.bincreased|intcomma}}</td>
+        {% endif %}
+ 
+
+      {% if balance.bincreasedratio > 0 %}
+      <td class="text-right plus-color d-none d-sm-table-cell">{{balance.bincreasedratio|intcomma}}%</td>
+      {% elif balance.bincreasedratio < 0 %} 
+      <td class="text-right minus-color d-none d-sm-table-cell" >{{balance.bincreasedratio|intcomma}}%</td>
+        {% else %}
+        <td class="text-right d-none d-sm-table-cell">{{balance.bincreasedratio|intcomma}}</td>
+        {% endif %}
+ 
+ 
+
+      <td class="text-center">
+
+        <!-- Update balance buttons -->
+        <button type="button"  class="update-balances btn btn-sm btn-primary custom" style="font-size: 0.8em;"  data-form-url="{% url 'update_balances' balance.pk %}">
+          <span class="fa fa-pencil"></span>
+        </button>
+
+        <!-- Delete balance buttons -->
+        <button type="button"   class="bs-modal delete-MyStocks btn btn-sm btn-danger custom " style="font-size: 0.8em;" data-form-url="{% url 'delete_balances' balance.pk %}">
+          <span class="fa fa-trash"></span>
+        </button>
+        
+
+      </td>
+
+
+
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+

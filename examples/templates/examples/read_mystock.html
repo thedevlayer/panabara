@@ -1,0 +1,79 @@
+{% load widget_tweaks %}
+
+<div class="modal-header">
+  <h3 class="modal-title">상세 항목</h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+
+
+  <div class="">
+    Market:
+    {{ mystocks.get_invst_type_display }}
+  </div>
+  <div class="">
+    Symbol:
+    {{ mystocks.icode }}
+  </div>
+  <div class="">
+    Name:
+    {{ mystocks.iname }}
+  </div>
+  <div class="">
+    Buy Price:
+    {{ mystocks.iunitbuyprice  }}
+  </div>
+  <div class="">
+    Current Price:
+    {{ mystocks.iunitcurprice   }}
+  </div>
+  <div class="">
+    Currency Rate:
+    {{ mystocks.kcurrencyrate   }}
+  </div>
+  <div class="">
+    Numbers:
+    {{ mystocks.iquantity  }}
+  </div>
+  <div class="">
+    Estimated amount:
+    {{ mystocks.ktotalcurprice   }}
+  </div>
+  <div class="">
+    Profit ratio:
+    {{ mystocks.kprofitratio  }}
+  </div>
+  <div class="">
+    Sector:
+    {{ mystocks.business  }}
+  </div>
+  <div class="">
+    Business:
+    {{ mystocks.detail  }}
+  </div>
+  <!-- <div class="">
+    상장일:
+    {{ mystocks.startdate  }}
+  </div> -->
+  <div class="">
+    Urls:
+    <a href={{mystocks.discuss_url}}>{{mystocks.discuss_url}}</a>
+  </div>
+  <div class="">
+    Update Date:
+    {{ mystocks.iupdatedate  }}
+  </div>
+
+  <div class="">
+    User:
+    {{ mystocks.author  }}
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
